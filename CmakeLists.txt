@@ -1,0 +1,26 @@
+# CMake 프로그램의 최소 버전
+cmake_minimum_required(VERSION 3.21)
+
+# 프로젝트 정보
+project(Cam)
+
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /source-charset:utf-8")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /source-charset:utf-8")
+
+set(Camera_DIR "C:/Program Files (x86)/HuaTengVision/SDK/X64")
+find_library(MVCAM_LIBS NAMES MVCAMSDK_X64 PATHS ${Camera_DIR})
+
+# OpneCV경로 설정
+set(OpenCV_DIR C:/opencv/build)
+# 패키지 찾기
+find_package(OpenCV REQUIRED)
+
+
+# 실행파일 생성
+set(src_name test1 test2)
+foreach(src IN LISTS src_name)
+    add_executable(${src} src/${src}.cpp)
+    # OpenCV 라이브러리 링크
+    target_link_libraries(${src} ${MVCAM_LIBS} ${OpenCV_LIBS})
+endforeach()
